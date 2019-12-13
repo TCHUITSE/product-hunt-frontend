@@ -1,0 +1,36 @@
+.header{
+    background-color: white;
+}
+
+.lien{
+    font-size: 16px;
+}
+
+.input{
+    font-size: 10px;
+}
+
+.bouton-signup {
+    background-color: #cc4d29 ! important;
+    border-color:  #cc4d29 ! important;
+    font-size: 12px ! important;
+}
+.bouton-login {
+    background-color: white ! important;
+    border-color: #f4f4f4 ! important;
+    color: black ! important;
+    font-size: 12px ! important;
+}
+
+.bouton-signup:hover {
+    background-color: #cc4d29 ! important;
+    border-color:  #cc4d29 ! important;
+    font-size: 12px ! important;
+    color: black !important;
+}
+.bouton-login:hover {
+    background-color: #f4f4f4 ! important;
+    border-color: #f4f4f4 ! important;
+    color: black ! important;
+    font-size: 12px ! important;
+}
