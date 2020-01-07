@@ -1,6 +1,5 @@
 import {
     SET_USER,
-    CLEAR_ERRORS,
     LOADING_UI,
     SET_AUTHENTICATED,
     LOADING_USER
@@ -22,7 +21,6 @@ import {
         type: SET_AUTHENTICATED ,
       payload: !!user}); 
     })
-      dispatch({ type: CLEAR_ERRORS });
   };
 
   export const getUserData = () => (dispatch) => {

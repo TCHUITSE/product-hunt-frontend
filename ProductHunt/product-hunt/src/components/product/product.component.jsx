@@ -7,49 +7,26 @@ import Button from 'react-bootstrap/Button';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import { faComment, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import Divider from '@material-ui/core/Divider';
-import Dialog from '@material-ui/core/Dialog';
-import PropTypes from 'prop-types';
-import withStyles from '@material-ui/core/styles/withStyles';
-import { connect } from 'react-redux';
-import { getProduct, clearErrors } from '../../redux/actions/dataAction';
-import DialogContent from '@material-ui/core/DialogContent';
+
 
 import UpVote from '../upvote/upvote.component'; 
 import '../../components/product/product.css';
 import ProductDialog from '../productdialog/productdialog.component';
 
 
-const styles = {
-    dialogContent:{
-      backgroundColor: '#f4f4f4',
-      overflow: 'auto',
-      height:'100%',
-      
-    }
-}
 class Product extends React.Component {
-    state = {
-        open: false,
-        oldPath: '',
-        newPath: ''
-    };
-    handleOpen = () => {
-        let oldPath = window.location.pathname;
-        const newPath = `/post/${this.props.productItem.productId}`;
-    
-        //if (oldPath === newPath) oldPath = `/users/${userHandle}`;
-    
-        window.history.pushState(null, null, newPath);
-    
-        this.setState({ open: true, oldPath, newPath });
-        this.props.getProduct(this.props.productItem.productId);
-      };
-      handleClose = () => {
-        window.history.pushState(null, null, this.state.oldPath);
-        this.setState({ open: false });
-        this.props.clearErrors();
-      };
 
+    state={
+        open:false
+    }
+    handleOpen = () => {
+        console.log('handle header product')
+        this.setState({open: true})
+    };
+    handleClose = () => {
+        this.setState({open: false})
+    };
+    
     render() {
         return (
             <Container className="product p-0" fluid= {true} onClick={this.handleOpen}>
@@ -80,39 +57,15 @@ class Product extends React.Component {
                     <Col> <UpVote product={this.props.productItem}/></Col>
                 </Row>
                 <Divider light={true}></Divider>
-                <Dialog
-                    open={this.state.open}
-                    onClose={this.handleClose}
-                    fullWidth
-                    maxWidth="lg"
-                > 
-                    <DialogContent  className={this.props.classes.dialogContent}>
-                        <ProductDialog product={this.props.product} loading={this.props.UI.loading}> </ProductDialog>
-                    </DialogContent>
-                </Dialog>
+                <ProductDialog 
+                    productId={this.props.productItem.productId} 
+                    openDialog={this.state.open}
+                    handleClose={this.handleClose}
+                >
+                </ProductDialog>
             </Container>
         )
     }
 }
-Product.propTypes = {
-    clearErrors: PropTypes.func.isRequired,
-    getProduct: PropTypes.func.isRequired,
-    //productId: PropTypes.string.isRequired,
-    //userHandle: PropTypes.string.isRequired,
-    product: PropTypes.object.isRequired,
-    UI: PropTypes.object.isRequired
-  };
-  
-  const mapStateToProps = (state) => ({
-    product: state.data.product,
-    UI: state.UI
-  });
-  
-  const mapActionsToProps = {
-    getProduct,
-    clearErrors
-  };
-export default connect(
-    mapStateToProps,
-    mapActionsToProps
-  )(withStyles(styles) (Product));
+
+export default Product;

@@ -2,8 +2,6 @@ import {
     SET_PRODUCTS,
     LOADING_DATA,
     UPVOTE_PRODUCT,
-    SET_ERRORS,
-    CLEAR_ERRORS,
     LOADING_UI,
     SET_PRODUCT,
     STOP_LOADING_UI,
@@ -66,13 +64,9 @@ import {
           type: SUBMIT_COMMENT,
           payload: res.data
         });
-        dispatch(clearErrors());
       })
       .catch((err) => {
-        dispatch({
-          type: SET_ERRORS,
-          payload: err.response.data
-        });
+        console.log(err);
       });
   };
   
@@ -95,7 +89,5 @@ import {
       });
   };*/
   
-  export const clearErrors = () => (dispatch) => {
-    dispatch({ type: CLEAR_ERRORS });
-  };
+  
   
