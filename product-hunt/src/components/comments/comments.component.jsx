@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Grid from '@material-ui/core/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
-import logo from '../../logo.png';
 import Typography from '@material-ui/core/Typography';
 
 
@@ -11,10 +10,16 @@ const styles={
         height: 50,
         objectFit: 'cover',
         borderRadius: '50%'
-      },
-      gridComment:{
+    },
+    gridComment:{
         marginTop: '9px',
+    },
+
+    userHandle:{
+        fontWeight: 'bold'
     }
+
+
 
 };
 class Comments extends Component {
@@ -26,14 +31,15 @@ class Comments extends Component {
                         <Grid container spacing={1}>
                             <Grid item xs={1}>
                                 <img
-                                src={logo}
+                                src={comment.userImage}
                                 alt="comment"
                                 className={this.props.classes.commentImage}
                                 />
                             </Grid>
                             <Grid item xs={11} className={this.props.classes.gridComment}>
                                 <Typography
-                                    variant="h6"
+                                    variant="subtitle2"
+                                    className={ this.props.classes.userHandle}
                                 >
                                     {comment.userHandle}
                                 </Typography>

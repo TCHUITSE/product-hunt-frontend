@@ -48,6 +48,7 @@ class CommentForm extends Component {
     };
     
     handleOpen =() =>{
+        console.log('open');  
         this.setState({open:true});
     };
     
@@ -61,16 +62,14 @@ class CommentForm extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        if (this.props.authenticated){
-            //this.props.submitComment(this.props.productId, { body: this.state.body });
-            console.log('submit')
+        const commentData={
+            body:this.state.body,
+            userId: this.props.user.currentUser.userId,
+            photoURL: this.props.user.currentUser.photoURL,
+            userHandle: this.props.user.currentUser.displayName,
         }
-        else{
-            console.log('onsubmit')
-            this.setState({ open: true });
-           // this.handleOpen();
-        }
-        
+        this.props.submitComment(this.props.productId, commentData);
+        console.log('submit');   
     };
     render() {
         return (
@@ -84,7 +83,7 @@ class CommentForm extends Component {
                         />
                     </Grid>
                     <Grid item xs={11} className={this.props.classes.gridComment}>
-                        <form  className={this.props.classes.form}>
+                        <form onSubmit={this.handleSubmit} className={this.props.classes.form}>
                             <TextField
                                 name="body"
                                 type="text"
@@ -96,14 +95,25 @@ class CommentForm extends Component {
                                 variant='outlined'
                                 size='small'
                             />
+                            {this.props.user.authenticated ? (
                             <Button
-                                onClick={this.handleSubmit}
+                                type='submit'
+                                variant="contained"
+                                size='small'
+                                className={this.props.classes.button}
+                            >
+                                Send
+                            </Button> ): (
+                            <Button
+                                onClick={this.handleOpen}
                                 variant="contained"
                                 size='small'
                                 className={this.props.classes.button}
                             >
                                 Send
                             </Button>
+                            )}
+                            
                         </form>
                     </Grid>
                 </Grid>
@@ -117,12 +127,14 @@ CommentForm.propTypes = {
     UI: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired,
     productId: PropTypes.string.isRequired,
-    authenticated: PropTypes.bool.isRequired
+    //authenticated: PropTypes.bool.isRequired,
+    user: PropTypes.object.isRequired
   };
   
   const mapStateToProps = (state) => ({
     UI: state.UI,
-    authenticated: state.user.authenticated
+    //authenticated: state.user.authenticated,
+    user: state.user
   });
   
 

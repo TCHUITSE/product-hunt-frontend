@@ -3,13 +3,14 @@ import {
     SET_AUTHENTICATED,
     LOADING_USER,
     UPVOTE_PRODUCT,
+  SET_UNAUTHENTICATED,
   } from '../types';
   
   const initialState = {
     authenticated: false,
     loading: false,
-    credentials: {},
-    votes: []
+    currentUser: {},
+    //votes: []
   };
   
   export default function(state = initialState, action) {
@@ -19,7 +20,8 @@ import {
           ...state,
           authenticated: action.payload
         };
-      
+      case SET_UNAUTHENTICATED:
+        return initialState;
       case SET_USER:
         return {
           authenticated: true,

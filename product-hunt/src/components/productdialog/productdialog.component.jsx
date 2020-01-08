@@ -106,7 +106,6 @@ export class ProductDialog extends Component {
                     {this.props.loading ? (
                         <div className={this.props.classes.spinnerDiv}>
                             <CircularProgress size={200} thickness={2} />
-                            <Typography> madina</Typography>
                         </div>
                     ) : (
                             <Grid container spacing={1} >
@@ -145,8 +144,8 @@ export class ProductDialog extends Component {
                                         <Grid item >
                                             <Card className={this.props.classes.card}>
                                                 <CardMedia
-                                                    component='img'
-                                                    src={this.props.product.gallery[0]}
+                                                    component={this.state.cardType}
+                                                    src={this.state.cardSource ? this.state.cardSource: this.props.product.gallery[0]}
                                                 />
                                                 <CardContent>
                                                     <Grid container spacing={1} className={this.props.classes.gridCard}>

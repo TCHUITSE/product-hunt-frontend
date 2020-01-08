@@ -2,6 +2,7 @@ import {
     SET_USER,
     LOADING_UI,
     SET_AUTHENTICATED,
+    SET_UNAUTHENTICATED,
     LOADING_USER,
   } from '../types';
   import firebase from "firebase/app";
@@ -19,26 +20,26 @@ import {
   
   export const loginUser = () => (dispatch) => {
     dispatch({ type: LOADING_UI });
-    firebase.auth().onAuthStateChanged(user => {
+    firebase.auth().onAuthStateChanged( async user => {
       dispatch({
         type: SET_AUTHENTICATED ,
-      payload: !!user}); 
+        payload: !!user}); 
 
       if(user){
-        createUserDocument(user);
+        const userRef= await createUserDocument(user);
+        userRef.onSnapshot(snapshot => {
+          dispatch({ type: LOADING_USER });
+          dispatch({
+            type: SET_USER,
+            payload: {currentUser:{userId: snapshot.id, ...snapshot.data()}}
+          });
+        })
       }
-    });
-    
-
-    
-  };
-
-  export const getUserData = () => (dispatch) => {
-    dispatch({ type: LOADING_USER });
-    dispatch({
-      type: SET_USER,
-      payload: firebase.auth().currentUser
-    });
+      else{
+        dispatch({
+          type: SET_UNAUTHENTICATED});
+      }
+    });   
   };
 
   export const getToken =() =>{
@@ -74,6 +75,6 @@ import {
       }
     }
 
-    //return userRef;
+    return userRef;
   }
   
