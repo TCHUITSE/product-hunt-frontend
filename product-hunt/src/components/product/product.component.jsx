@@ -39,6 +39,9 @@ class Product extends React.Component {
     };
     
     render() {
+        const styleobject={
+            value: 'bouton p-4'
+        };
         return (
             <Container className="product p-0" fluid= {true} >
                 <Row className= "p-4" >
@@ -68,7 +71,7 @@ class Product extends React.Component {
                             <span className='ml-2 mt-1 topics'>{this.props.productItem.topics[0]}</span>
                         </Row>
                     </Col>
-                    <Col> <UpVote product={this.props.productItem}/></Col>
+                    <Col> <UpVote product={this.props.productItem} style= { styleobject} /></Col>
                 </Row>
                 <Divider light={true}></Divider>
                 <ProductDialog  

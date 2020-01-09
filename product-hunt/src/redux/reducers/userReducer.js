@@ -2,8 +2,8 @@ import {
     SET_USER,
     SET_AUTHENTICATED,
     LOADING_USER,
-    UPVOTE_PRODUCT,
-  SET_UNAUTHENTICATED,
+    //UPVOTE_PRODUCT,
+    SET_UNAUTHENTICATED,
   } from '../types';
   
   const initialState = {
@@ -33,17 +33,18 @@ import {
           ...state,
           loading: true
         };
-      case UPVOTE_PRODUCT:
+      /*case UPVOTE_PRODUCT:
         return {
           ...state,
           votes: [
             ...state.votes,
             {
-              userHandle: state.credentials.handle,
+              userHandle: state.currentUser.userHandle,
+              userId: state.currentUser.userId,
               productId: action.payload.productId
             }
           ]
-        };
+        };*/
       default:
         return state;
     }

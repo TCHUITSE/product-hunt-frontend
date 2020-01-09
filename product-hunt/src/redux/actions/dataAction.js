@@ -43,9 +43,9 @@ import {
   };
   
   // Upvote a product
-  export const upvoteProduct = (productId) => (dispatch) => {
+  export const upvoteProduct = (productId, upvoteData) => (dispatch) => {
     axios
-      .get(`/products/${productId}/upvote`)
+      .post(`/products/${productId}/upvote`, upvoteData)
       .then((res) => {
         dispatch({
           type: UPVOTE_PRODUCT,

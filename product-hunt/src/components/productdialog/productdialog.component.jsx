@@ -20,6 +20,7 @@ import CloseIcon from '@material-ui/icons/Close';
 
 import Comments from  '../comments/comments.component';
 import CommentForm from '../commentForm/commentForm.component';
+import UpVote from '../upvote/upvote.component'; 
 
 
 
@@ -92,6 +93,9 @@ export class ProductDialog extends Component {
 
     };
     render() {
+        const styleobject = {
+            value: 'essai p-2'
+        };
         return (
             <Dialog
                 open={this.props.openDialog}
@@ -144,8 +148,8 @@ export class ProductDialog extends Component {
                                         <Grid item >
                                             <Card className={this.props.classes.card}>
                                                 <CardMedia
-                                                    component={this.state.cardType}
-                                                    src={this.state.cardSource ? this.state.cardSource: this.props.product.gallery[0]}
+                                                    component='img'
+                                                    src={this.props.product.gallery[0]}
                                                 />
                                                 <CardContent>
                                                     <Grid container spacing={1} className={this.props.classes.gridCard}>
@@ -250,7 +254,7 @@ export class ProductDialog extends Component {
                                         </Grid>
                                     </Grid>
                                     <Grid item xs={4}>
-
+                                        <UpVote product={this.props.product} style={styleobject} />
                                     </Grid>
                                 </Grid>
                             </Grid>
