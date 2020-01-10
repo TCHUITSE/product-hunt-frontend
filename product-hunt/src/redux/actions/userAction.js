@@ -29,10 +29,20 @@ import {
         const userRef= await createUserDocument(user);
         userRef.onSnapshot(snapshot => {
           dispatch({ type: LOADING_USER });
-          dispatch({
-            type: SET_USER,
-            payload: {currentUser:{userId: snapshot.id, ...snapshot.data()}}
-          });
+          const votes = [];
+          firebase.firestore().collection('votes')
+            .where('userId', '==', snapshot.id)
+            .get()
+            .then((data) => {
+              data.forEach((doc) => {
+                votes.push(doc.data());
+              });
+              dispatch({
+                type: SET_USER,
+                payload: { currentUser: { userId: snapshot.id, ...snapshot.data() }, votes: votes }
+              });
+            });
+          
         })
       }
       else{
@@ -77,4 +87,19 @@ import {
 
     return userRef;
   }
+
+  /*const getVotesOfUser= async (userId) => {
+    const votes=[];
+    firebase.firestore().collection('votes')
+    .where('userId', '==', userId)
+    .get()
+    .then((data) => {
+        data.forEach((doc) =>{
+          console.log(doc.data());
+          votes.push(doc.data());
+        })
+    });
+    console.log(votes);
+    return votes
+  }*/
   

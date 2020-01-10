@@ -59,6 +59,10 @@ class CommentForm extends Component {
     handleChange = (event) => {
         this.setState({ [event.target.name]: event.target.value });
     };
+    componentWillReceiveProps(nextProps){
+        console.log('madina');
+        this.setState({body: '' });
+    }
 
     handleSubmit = (event) => {
         event.preventDefault();

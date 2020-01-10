@@ -1,6 +1,7 @@
 import {
     SET_PRODUCTS,
     UPVOTE_PRODUCT,
+    DOWNVOTE_PRODUCT,
     LOADING_DATA,
     SET_PRODUCT,
     SUBMIT_COMMENT
@@ -31,6 +32,7 @@ import {
           product: action.payload
         };
       case UPVOTE_PRODUCT:
+      case DOWNVOTE_PRODUCT:
         let index = state.products.findIndex(
           (product) => product.productId === action.payload.productId
         );

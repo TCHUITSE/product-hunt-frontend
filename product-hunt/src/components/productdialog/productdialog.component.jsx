@@ -21,15 +21,16 @@ import CloseIcon from '@material-ui/icons/Close';
 import Comments from  '../comments/comments.component';
 import CommentForm from '../commentForm/commentForm.component';
 import UpVote from '../upvote/upvote.component'; 
+import DownVote from '../downvote/downvote.component';
+import '../../components/productdialog/productdialog.css'; 
 
 
 
 
 const styles={
     dialogContent:{
-        backgroundColor: '#f4f4f4',
-        overflow: 'auto',
-        height:'100%',    
+        //height:'100%',
+        overflow: 'initial',    
     },
     tagLine:{
         color: 'grey',
@@ -55,8 +56,9 @@ const styles={
         width: '60px',
     },
     minicardArea:{
-        height:'100%',
+        //height:'100%',
     },
+    
     customButtonTweet:{
         color:'#00aced',
         borderColor:'#00aced',
@@ -78,7 +80,6 @@ const styles={
     }
 
 
-
 };
 export class ProductDialog extends Component {
    
@@ -92,16 +93,15 @@ export class ProductDialog extends Component {
         this.setState({cardType: type, cardSource: source});
 
     };
+
     render() {
-        const styleobject = {
-            value: 'essai p-2'
-        };
         return (
             <Dialog
                 open={this.props.openDialog}
                 onClose={this.props.handleClose}
                 fullWidth
                 maxWidth="lg"
+                scroll='body'
             > 
                 <DialogContent className={this.props.classes.dialogContent}>
                     <Fab aria-label="close" size="small" className={this.props.classes.close} onClick={this.props.handleClose}>
@@ -112,7 +112,7 @@ export class ProductDialog extends Component {
                             <CircularProgress size={200} thickness={2} />
                         </div>
                     ) : (
-                            <Grid container spacing={1} >
+                            <Grid container spacing={2} >
                                 <Grid item xs={1}>
                                     <img
                                         src={this.props.product.thumbnail}
@@ -254,7 +254,14 @@ export class ProductDialog extends Component {
                                         </Grid>
                                     </Grid>
                                     <Grid item xs={4}>
-                                        <UpVote product={this.props.product} style={styleobject} />
+                                        {this.props.votedProduct() ? (
+                                            <DownVote product={this.props.product} tooltipClasses={'py-3 px-5  ml-3 downvoteOtherBouton'} tooltipClassesDisplay={'mx-1 ligne'}
+                                                visible={true} />
+                                        ): (
+                                            <UpVote product={this.props.product} tooltipClasses={'py-3 px-5  ml-3 otherBouton'} tooltipClassesDisplay={'mx-1 ligne'}
+                                                visible={true} />
+                                        )}
+                                        
                                     </Grid>
                                 </Grid>
                             </Grid>

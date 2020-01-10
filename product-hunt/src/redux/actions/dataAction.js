@@ -2,6 +2,7 @@ import {
     SET_PRODUCTS,
     LOADING_DATA,
     UPVOTE_PRODUCT,
+    DOWNVOTE_PRODUCT,
     LOADING_UI,
     SET_PRODUCT,
     STOP_LOADING_UI,
@@ -27,12 +28,13 @@ import {
         });
       });
   };
+
+  //get one product
   export const getProduct = (productId) => (dispatch) => {
     dispatch({ type: LOADING_UI });
     axios
       .get(`/products/${productId}`)
       .then((res) => {
-        console.log(res);
         dispatch({
           type: SET_PRODUCT,
           payload: res.data
@@ -54,7 +56,20 @@ import {
       })
       .catch((err) => console.log(err));
   };
-  
+
+  //downvote a product
+  export const downvoteProduct = (productId, downvoteData) => (dispatch) => {
+    axios
+      .post(`/products/${productId}/downvote`, downvoteData)
+      .then((res) => {
+        dispatch({
+          type: DOWNVOTE_PRODUCT,
+          payload: res.data
+        });
+      })
+      .catch((err) => console.log(err));
+  };
+
   // Submit a comment
   export const submitComment = (productId, commentData) => (dispatch) => {
     axios

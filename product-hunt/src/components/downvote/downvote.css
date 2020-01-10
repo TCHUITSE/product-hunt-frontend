@@ -1,0 +1,41 @@
+.downvoteBouton {
+    background-color: white! important;
+    border-color: #b74424 ! important;
+    color: #b74424 ! important;
+    font-size: 16px ! important;
+   
+}
+
+.downvoteBouton:hover {
+    background-color: white ! important;
+    border-color: #cc4d29 ! important;
+}
+
+
+.downvoteOtherBouton{
+    background-color:white !important;
+    border-color:  #b74424 !important;
+    color: #b74424 ! important;
+    font-size: 16px ! important;  
+    font-weight: bold ! important;
+}
+
+.downvoteOtherBouton:hover{
+    background-color:  white !important;
+    border-color:   #cc4d29 !important;
+    
+}
+.colonne{
+    display: block !important;
+}
+
+.ligne{
+    display: inline-block !important;
+}
+.voteOpacity{
+    opacity: 0.65;
+}
+
+
+
+    

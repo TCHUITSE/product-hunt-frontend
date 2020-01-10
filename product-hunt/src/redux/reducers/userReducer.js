@@ -2,7 +2,8 @@ import {
     SET_USER,
     SET_AUTHENTICATED,
     LOADING_USER,
-    //UPVOTE_PRODUCT,
+    UPVOTE_PRODUCT,
+    DOWNVOTE_PRODUCT,
     SET_UNAUTHENTICATED,
   } from '../types';
   
@@ -10,7 +11,7 @@ import {
     authenticated: false,
     loading: false,
     currentUser: {},
-    //votes: []
+    votes: []
   };
   
   export default function(state = initialState, action) {
@@ -33,7 +34,7 @@ import {
           ...state,
           loading: true
         };
-      /*case UPVOTE_PRODUCT:
+      case UPVOTE_PRODUCT:
         return {
           ...state,
           votes: [
@@ -44,7 +45,14 @@ import {
               productId: action.payload.productId
             }
           ]
-        };*/
+      };
+      case DOWNVOTE_PRODUCT:
+        return {
+          ...state,
+          votes: state.votes.filter(
+            (vote) => vote.productId !== action.payload.productId
+          )
+        };
       default:
         return state;
     }

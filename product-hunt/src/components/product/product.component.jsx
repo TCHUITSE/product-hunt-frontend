@@ -13,6 +13,7 @@ import { getProduct } from '../../redux/actions/dataAction';
 
 
 import UpVote from '../upvote/upvote.component'; 
+import DownVote from '../downvote/downvote.component'; 
 import '../../components/product/product.css';
 import ProductDialog from '../productdialog/productdialog.component';
 
@@ -37,11 +38,19 @@ class Product extends React.Component {
          window.history.pushState(null, null, this.state.oldPath);
         this.setState({ open: false });
     };
+    votedProduct = () => {
+        if (
+            this.props.user.votes &&
+            this.props.user.votes.find(
+                (vote) => vote.productId === this.props.productItem.productId
+            )
+        )
+            return true;
+        else return false
+
+    }; 
     
     render() {
-        const styleobject={
-            value: 'bouton p-4'
-        };
         return (
             <Container className="product p-0" fluid= {true} >
                 <Row className= "p-4" >
@@ -71,7 +80,24 @@ class Product extends React.Component {
                             <span className='ml-2 mt-1 topics'>{this.props.productItem.topics[0]}</span>
                         </Row>
                     </Col>
-                    <Col> <UpVote product={this.props.productItem} style= { styleobject} /></Col>
+                    <Col> 
+                        {this.votedProduct() ? (
+                            <DownVote
+                                product={this.props.productItem}
+                                tooltipClasses={'p-4 downvoteBouton'}
+                                tooltipClassesDisplay={'colonne'}
+                                visible={false}
+                            />
+
+                        ): (
+                            <UpVote
+                                product={this.props.productItem}
+                                    tooltipClasses={'p-4 upvoteBouton'}
+                                tooltipClassesDisplay={'colonne'}
+                                visible={false}
+                            />
+                        )}
+                    </Col>
                 </Row>
                 <Divider light={true}></Divider>
                 <ProductDialog  
@@ -79,6 +105,7 @@ class Product extends React.Component {
                     handleClose={this.handleClose}
                     loading={this.props.UI.loading}
                     product= {this.props.product}
+                    votedProduct= {this.votedProduct}
                 >
                 </ProductDialog>
 
@@ -90,12 +117,14 @@ class Product extends React.Component {
 Product.propTypes = {
     getProduct: PropTypes.func.isRequired,
     product: PropTypes.object.isRequired,
-    UI: PropTypes.object.isRequired
+    UI: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
     product: state.data.product,
     UI: state.UI,
+    user: state.user,
 });
 
 const mapActionsToProps = {

@@ -1,25 +1,41 @@
-.bouton {
+.upvoteBouton {
     background-color: white ! important;
-    border-color: grey ! important;
+    border-color: #f3f3f3 ! important;
     color: black ! important;
-    font-size: 20px ! important;
+    font-size: 16px ! important;
+    
 }
 
-.bouton:hover {
+.upvoteBouton:hover {
     background-color: #f3f3f3 ! important;
     border-color: #f4f4f4 ! important;
 }
 
 
-.essai{
-    background-color:  '#b74424' ! important;
-    border-color:  '#b74424'! important;
+.otherBouton{
+    background-color:  #b74424 !important;
+    border-color:  #b74424 !important;
     color: white! important;
-    font-size: 20px ! important;  
+    font-size: 16px ! important;  
+    font-weight: bold ! important;
 }
 
-.essai:hover{
-    background-color:   '#cc4d29'! important;
-    border-color:   '#cc4d29' ! important;
+.otherBouton:hover{
+    background-color:  #cc4d29 !important;
+    border-color:   #cc4d29 !important;
     
 }
+.colonne{
+    display: block !important;
+}
+
+.ligne{
+    display: inline-block !important;
+}
+.voteOpacity{
+    opacity: 0.65;
+}
+
+
+
+    

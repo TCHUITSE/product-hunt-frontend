@@ -1,15 +1,15 @@
-import React ,{Fragment}from 'react';
+import React , {Fragment} from 'react';
 import Button from 'react-bootstrap/Button';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faCaretUp} from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretUp } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { upvoteProduct} from '../../redux/actions/dataAction';
+import { downvoteProduct } from '../../redux/actions/dataAction';
 
-import '../../components/upvote/upvote.css';
+import '../../components/downvote/downvote.css';
 import LoginDialog from '../loginDialog/loginDialog.component';
 
-class UpVote extends React.Component{
+class DownVote extends React.Component {
     state = {
         open: false
     };
@@ -20,51 +20,48 @@ class UpVote extends React.Component{
     handleClose = () => {
         this.setState({ open: false });
     };
-
-    upvoteProduct = () =>{
+    downvoteProduct = () => {
         if(this.props.user.authenticated){
-            const upvoteData = {
+            const downvoteData = {
                 userId: this.props.user.currentUser.userId,
-                userHandle: this.props.user.currentUser.displayName,
             }
-            this.props.upvoteProduct(this.props.product.productId, upvoteData);
+            this.props.downvoteProduct(this.props.product.productId, downvoteData);
         }
-        else{ 
+        else{
             this.handleOpen();
         }
-           
+        
     };
-
-    render(){
-        return(
+    render() {
+        return (
             <Fragment>
-                <Button className={this.props.tooltipClasses} onClick={this.upvoteProduct}>
+                <Button className={this.props.tooltipClasses} onClick={this.downvoteProduct}>
                     < FontAwesomeIcon icon={faCaretUp} className={this.props.tooltipClassesDisplay} />
-                    {this.props.visible ? (<span className={this.props.tooltipClassesDisplay}> UPVOTE </span>) : null}
+                    {this.props.visible ? (<span className={this.props.tooltipClassesDisplay}> UPVOTED </span>) : null}
                     <span className={this.props.visible ? `voteOpacity ${this.props.tooltipClassesDisplay}` : this.props.tooltipClassesDisplay}>{this.props.product.vote}</span>
                 </Button>
-                {this.state.open && <LoginDialog openDialog={this.state.open} handleClose={this.handleClose} />}
+                {this.state.open &&<LoginDialog openDialog={this.state.open} handleClose={this.handleClose} />}
             </Fragment>
             
-        )  
+        )
     }
 }
 
-UpVote.propTypes={
+DownVote.propTypes = {
     product: PropTypes.object.isRequired,
-    upvoteProduct: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
+    downvoteProduct: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) =>({
+const mapStateToProps = (state) => ({
     user: state.user
 });
 
 const mapActionsToProps = {
-    upvoteProduct,
+    downvoteProduct,
 }
 
-export default  connect(
+export default connect(
     mapStateToProps,
     mapActionsToProps
-)  (UpVote);
+)(DownVote);
