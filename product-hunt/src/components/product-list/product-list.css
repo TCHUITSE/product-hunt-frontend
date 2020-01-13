@@ -1,0 +1,9 @@
+.product-card{
+    padding: 0px ! important;
+    background-color: green ! important;
+}
+
+.product-card-contain{
+    margin: 0px ! important;
+    background-color: red  ! important;
+}
