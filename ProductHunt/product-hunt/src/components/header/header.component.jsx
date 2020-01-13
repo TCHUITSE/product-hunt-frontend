@@ -6,6 +6,7 @@ import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 import Nav from 'react-bootstrap/Nav';
 import logo from '../../logo.png';
+import Typography from '@material-ui/core/Typography'
 
 import PropTypes from 'prop-types';
 import firebase from 'firebase';
@@ -62,6 +63,10 @@ class Header extends React.Component{
         </Nav>
         <Form inline className='element3'>
           {authenticated ? (<Fragment>
+            <Typography
+            component={Link}
+            to='/posts/new'
+            color='default'>Post</Typography>
             <Button className="bouton-login mx-2" onClick={() => firebase.auth().signOut()}>LOG OUT</Button> 
             </Fragment>
             
