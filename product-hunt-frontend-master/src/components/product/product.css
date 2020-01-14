@@ -1,0 +1,39 @@
+.product{
+    background-color: white !important;
+    
+}
+.bordure{
+    border-color:#f3f3f3 ! important;
+    border-top-width: 0.5px !important;
+    border-bottom-width:0.5px !important;
+
+}
+
+.tagLine{
+    color: grey;
+    font-size: 13px;
+}
+
+.bouton {
+    background-color: white ! important;
+    border-color: #f2f2f2 ! important;
+    color: grey ! important;
+    font-size: 12px ! important;
+}
+
+.topics{
+    color: grey;
+    font-size: 12px;
+}
+.bouton:hover {
+    background-color: #f3f3f3 ! important;
+    border-color: #f4f4f4 ! important;
+    color:  grey ! important;
+    font-size: 12px ! important;
+}
+
+.product:hover {
+    background-color: #f5f5f5 ! important;
+    
+}
+

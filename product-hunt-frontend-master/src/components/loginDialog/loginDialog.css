@@ -1,0 +1,16 @@
+
+ul{
+    display: flex; 
+    justify-content: space-around; 
+}
+
+#firebaseui_container{
+    width:100%;
+}
+.firebaseui-container{
+    max-width: none !important;
+}
+.firebaseui-card-content{
+    width: 100%;
+}
+
