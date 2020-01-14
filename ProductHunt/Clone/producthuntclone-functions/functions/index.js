@@ -25,7 +25,6 @@ const firebase= require ('firebase');
 firebase.initializeApp(config)
 
 app.get('/products', (req, res)=> {
-    res.set('Access-Control-Allow-Origin', '*')
     admin.firestore().collection('products')
     .orderBy('createdAt', 'desc' )
     .get()
@@ -44,7 +43,6 @@ app.get('/products', (req, res)=> {
 
 
 app.get('/products/:productId', (req, res)=>{
-    res.set('Access-Control-Allow-Origin', '*')
    let productData ={};
     admin.firestore().doc(`/products/${req.params.productId}`).get()
     .then(doc =>{
@@ -72,11 +70,37 @@ app.get('/products/:productId', (req, res)=>{
 
 });
 
+const FBAuth = (req, res, next) => {
+    let idToken;
+   if(req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
+      idToken = req.headers.authorization.split('Bearer ')[1];  
+   } 
+   else{
+       console.error('No token found');
+       return res.status(403).json({error: 'Unauthorized'});
+   }
+   admin.auth().verifyIdToken(idToken)
+   .then(decodedToken => {
+       req.user =decodedToken;
+       return admin.firestore().collection('users')
+       .where('userId', '==', req.user.uid)
+       .limit(1)
+       .get();
+   })
+   .then(data => {
+       req.user.handle= data.docs[0].data().handle;
+       return next();
+   })
+   .catch(err =>{
+       console.error('error while verifying token ' , err );
+        return res.status(403).json(err);
+   })
+}
+
 //upvote product
-app.get('/products/:productId/upvote', (req, res)=> {
-    res.set('Access-Control-Allow-Origin', '*')
+app.post('/products/:productId/upvote', (req, res)=> {
     const voteDocument = admin.firestore().collection('votes')
-    //.where('userHandle', '==', req.user.handle)
+    .where('userId', '==', req.body.userId)
     .where('productId', '==', req.params.productId).limit(1);
 
     const productDocument = admin.firestore().doc(`/products/${req.params.productId}`);
@@ -94,20 +118,24 @@ app.get('/products/:productId/upvote', (req, res)=> {
             }
         })
         .then(data =>{
-            
-            return admin.firestore().collection('votes').add({
-                productId: req.params.productId,
-                userHandle: "user"
-                //userHandle: req.user.handle
-            })
-            .then( () =>{
-                productData.vote++
-                return productDocument.update({vote: productData.vote});
-            })
-            .then(()=> {
-                return res.json(productData);
-            })
-            
+            if(data.empty){
+                return admin.firestore().collection('votes').add({
+                    productId: req.params.productId,
+                    userId: req.body.userId,
+                    userHandle: req.body.userHandle
+                    //userHandle: req.user.handle
+                })
+                .then( () =>{
+                    productData.vote++
+                    return productDocument.update({vote: productData.vote});
+                })
+                .then(()=> {
+                    return res.json(productData);
+                })
+            }
+            else{
+                return res.status(400).json({error: 'product already upvote'});
+            }
         })
         .catch(err =>{
             console.error(err);
@@ -118,16 +146,15 @@ app.get('/products/:productId/upvote', (req, res)=> {
 });
 //comment product
 app.post('/products/:productId/comment', (req, res)=>{
-    res.set('Access-Control-Allow-Origin', '*')
     if(req.body.body.trim() === '') return res.status(400).json({error:"Must not be empty"});
 
     const newComment = {
         body:req.body.body,
         createdAt: new Date().toISOString(),
         productId: req.params.productId,
-        userHandle: "valentin perez",
-        //userHandle: req.user.handle,
-        //userImage:req.user.imageUrl
+        userHandle: req.body.userHandle,
+        userImage:req.body.photoURL,
+        userId: req.body.userId,
          
     };
     admin.firestore().doc(`/products/${req.params.productId}`).get()
@@ -148,6 +175,51 @@ app.post('/products/:productId/comment', (req, res)=>{
         console.log(err);
         res.status(500).json({error: 'Something went wrong'});
     })
+});
+
+//downvote product
+app.post('/products/:productId/downvote',(req, res) => {
+    const voteDocument = admin.firestore()
+      .collection('votes')
+      .where('userId', '==', req.body.userId)
+      .where('productId', '==', req.params.productId)
+      .limit(1);
+  
+    const productDocument = admin.firestore().doc(`/products/${req.params.productId}`);
+  
+    let productData;
+  
+    productDocument
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          productData = doc.data();
+          productData.productId = doc.id;
+          return voteDocument.get();
+        } else {
+          return res.status(404).json({ error: 'Product not found' });
+        }
+      })
+      .then((data) => {
+        if (data.empty) {
+          return res.status(400).json({ error: 'Product not voted' });
+        } else {
+          return admin.firestore()
+            .doc(`/votes/${data.docs[0].id}`)
+            .delete()
+            .then(() => {
+              productData.vote--;
+              return productDocument.update({ vote: productData.vote });
+            })
+            .then(() => {
+              res.json(productData);
+            });
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).json({ error: err.code });
+      });
 });
 
 
