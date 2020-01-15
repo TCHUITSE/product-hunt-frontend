@@ -1,0 +1,5 @@
+.MuiDialog-paper{
+    overflow: initial !important;
+    padding-bottom: 30px;
+    background-color: #f3f3f3 !important;
+}
