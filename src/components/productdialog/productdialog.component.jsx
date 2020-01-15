@@ -77,6 +77,8 @@ const styles={
     },
     close: {
         backgroundColor: 'white',
+        marginTop: '-70px',
+        marginLeft:'-100px'
     }
 
 

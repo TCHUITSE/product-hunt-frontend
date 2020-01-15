@@ -20,6 +20,7 @@ const styles={
         position:'center',
         marginLeft:'auto',
         marginRight:'auto',
+        marginTop:'80px',
       },
       title:{
         fontWeight:'bold'
@@ -49,6 +50,8 @@ const styles={
     },
     close:{
       backgroundColor:'white', 
+      marginTop: '-70px',
+      marginLeft: '-100px'
     }
 };
 class LoginDialog extends Component {

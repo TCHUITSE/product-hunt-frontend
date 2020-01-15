@@ -3,7 +3,6 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-//import Button from '@material-ui/core/Button';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import { faComment, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import Divider from '@material-ui/core/Divider';
@@ -53,7 +52,7 @@ class Product extends React.Component {
     render() {
         return (
             <Container className="product p-0" fluid= {true} >
-                <Row className= "p-4" >
+                <Row className="p-4">
                     <Col>
                         <img
                             src={this.props.productItem.thumbnail}
